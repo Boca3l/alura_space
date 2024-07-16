@@ -1,6 +1,5 @@
 from django.urls import path
-from apps.galeria.views import \
-    index,imagem,buscar,nova_imagem,deletar_imagem,editar_imagem
+from apps.galeria.views import index,imagem,buscar,nova_imagem,deletar_imagem,editar_imagem
 
 urlpatterns = [
     path('',index,name='index'),
