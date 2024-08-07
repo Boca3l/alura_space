@@ -8,7 +8,7 @@ def index(request):
         messages.error(request,"Usuário não logado")
         return redirect('login')
 
-    fotografias = Fotografia.objects.order_by('-data_fotografia').filter(publicada=True)
+    fotografias = Fotografia.objects.order_by('data_fotografia').filter(publicada=True)
 
     return render(request,'galeria/index.html', {'cards':fotografias})
 
@@ -21,13 +21,13 @@ def buscar(request,):
         messages.error(request,"Usuário não logado")
         return redirect('login')
     
-    fotografias = Fotografia.objects.order_by('-data_fotografia').filter(publicada=True)
+    fotografias = Fotografia.objects.order_by('data_fotografia').filter(publicada=True)
     if 'buscar' in request.GET:
         nome_a_buscar = request.GET['buscar']
         if nome_a_buscar:
             fotografias = fotografias.filter(nome__icontains =nome_a_buscar)
 
-    return render(request,'galeria/buscar.html',{'cards':fotografias})
+    return render(request,'galeria/index.html',{'cards':fotografias})
 
 def nova_imagem(request):
     if not request.user.is_authenticated:
@@ -62,3 +62,8 @@ def deletar_imagem(request,foto_id):
 
     messages.success(request,'Fotografia deletada com sucesso!')
     return redirect('index')
+
+def filtro(request,categoria):
+    fotografias = Fotografia.objects.order_by('data_fotografia').filter(publicada=True, categoria=categoria)
+
+    return render(request,'galeria/index.html',{'cards':fotografias})
